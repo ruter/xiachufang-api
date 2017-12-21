@@ -30,7 +30,7 @@ class Content(Item):
         steps = [{
             'step': idx + 1,
             'desc': re_br.sub('\n', re_p.sub('', etree.tounicode(node.find('p')).strip())).strip(),
-            'img': node.find('img').get('src') if node.find('img') else ''
+            'img': node.find('img').get('src') if node is not None else ''
         } for idx, node in enumerate(nodes)]
         return steps
 
