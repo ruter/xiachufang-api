@@ -1,7 +1,7 @@
 import re
 from lxml import etree
 
-from toapi import Css, Item, Regex, XPath
+from toapi import Css, Item, XPath
 
 
 class Content(Item):
@@ -9,7 +9,7 @@ class Content(Item):
     cover = Css('div.recipe-show > div.cover > img', attr='src')
     grade = Css('div.recipe-show > div.container > div.stats > div.score > span.number')
     materials = Css('div.recipe-show > div.ings > table tr')
-    steps = Css('div.steps > ol li')
+    steps = Css('div.steps > ol li', attr='html')
     tip = Css('div.tip')
 
     def clean_name(self, name):
@@ -30,7 +30,7 @@ class Content(Item):
         steps = [{
             'step': idx + 1,
             'desc': re_br.sub('\n', re_p.sub('', etree.tounicode(node.find('p')).strip())).strip(),
-            'img': node.find('img').get('src')
+            'img': node.find('img').get('src') if node.find('img') else ''
         } for idx, node in enumerate(nodes)]
         return steps
 
