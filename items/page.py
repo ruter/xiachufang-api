@@ -1,13 +1,14 @@
-from toapi import Item, XPath
+from toapi import Css, Item, XPath
 from config import SITE_URL
 
 
 class Page(Item):
-    next_page = XPath('//a[@class="next"][1]/@href')
-
-    def clean_next_page(self, next_page):
-        return "/{}{}".format(SITE_URL, next_page)
+    next = Css('a.next', attr='href')
 
     class Meta:
         source = XPath('//div[@class="pager"]')
-        route = '[/category/\d+/\?page=\d+|/search/\?cat=1001&keyword=.+]'
+        route = {
+            '/category/:cat/': '/category/:cat/',
+            '/category/:cat/?page=:page': '/category/:cat/?page=:page',
+            '/search/:keyword': '/search/?keyword=:keyword&cat=1001'
+        }

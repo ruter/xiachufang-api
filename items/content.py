@@ -1,6 +1,7 @@
+import re
 from lxml import etree
 
-from toapi import Css, Item, XPath
+from toapi import Css, Item, Regex, XPath
 
 
 class Content(Item):
@@ -8,6 +9,8 @@ class Content(Item):
     cover = Css('div.recipe-show > div.cover > img', attr='src')
     grade = Css('div.recipe-show > div.container > div.stats > div.score > span.number')
     materials = Css('div.recipe-show > div.ings > table tr')
+    steps = Css('div.steps > ol li')
+    tip = Css('div.tip')
 
     def clean_name(self, name):
         return name.strip()
@@ -19,6 +22,21 @@ class Content(Item):
         } for node in nodes]
         return materials
 
+    def clean_steps(self, nodes):
+        # HTML tag <p/>
+        re_p = re.compile('</?p[^>]*>')
+        # HTML tag <br/>
+        re_br = re.compile('<br\s*?/?>')
+        steps = [{
+            'step': idx + 1,
+            'desc': re_br.sub('\n', re_p.sub('', etree.tounicode(node.find('p')).strip())).strip(),
+            'img': node.find('img').get('src')
+        } for idx, node in enumerate(nodes)]
+        return steps
+
+    def clean_tip(self, tip):
+        return tip.strip()
+
     class Meta:
         source = XPath('//div[contains(@class,"main-panel")]/div[1]')
-        route = '/recipe/\d+/'
+        route = { '/recipe/:no/': '/recipe/:no/' }
