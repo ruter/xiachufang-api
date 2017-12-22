@@ -1,3 +1,6 @@
+from gevent import monkey
+monkey.patch_all()
+
 from app import api
 from gunicorn.app.base import Application
 
@@ -7,6 +10,7 @@ class ApiApplication(Application):
         self.load_config_from_module_name_or_filename('config/gunicorn.py')
 
     def load(self):
+        api.server.init_route()
         return api.server.app
 
 
