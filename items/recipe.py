@@ -1,5 +1,5 @@
 from toapi import Css, Item, XPath
-from config import SITE_URL
+from config.site import URL
 
 
 class Recipe(Item):

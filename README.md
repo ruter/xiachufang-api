@@ -26,7 +26,48 @@ pip install -r requirements.txt
 运行项目
 
 ```bash
-toapi run
+python wsgi.py
+```
+
+访问 `http://your_server_ip:5000`
+
+## Cache
+
+`Toapi` 本身提供了 3 种缓存机制：
+
+- `MemoryCache` - 服务重启后已缓存的数据都会销毁
+- `RedisCache` - 需安装并启动 `Redis`
+- `MemcachedCache` - 需安装并启动 `Memcached`
+
+默认使用的是 `MemoryCache`，可以自己手动更改配置使用其他另外两种缓存方式。
+
+为了方便使用，本项目已经在 `settings.py` 中默认配置了 `MemoryCache` 和 `RedisCache`，并且默认使用 `MemoryCache`.
+
+若要使用 `RedisCache` 缓存，需要先修改 `app.py` 中的配置，并确保在运行该项目之前 `Redis` 的服务已经启动，以下是参考步骤
+
+*app.py*
+
+```python
+# 全局替换 MemCacheSettings 为 RedisCacheSettings
+# 共有两处需要修改，修改后如下
+
+from settings import RedisCacheSettings
+
+api = Api(URL, settings=RedisCacheSettings)
+```
+
+*settings.py*
+
+```python
+# 找到 class RedisCacheSettings(Settings)
+# 检查 'cache_config' 里的配置和当前环境使用的 Redis 配置是否一致
+# 这里使用的是默认配置
+
+'cache_config': {
+    'host': '127.0.0.1',
+    'port': 6379,
+    'db': 0
+}
 ```
 
 ## Example
