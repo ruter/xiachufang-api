@@ -2,7 +2,7 @@
 
 下厨房官方并没有放出 API，本着自己动手丰衣足食的理念，配合 [Toapi](https://github.com/gaojiuli/toapi) 快速实现了一个 API.
 
-目前实现的接口有`搜索`、`分页`、`列表`和`详细内容` 4 个部分。
+目前实现的接口有`搜索`、`分页`、`列表`、`分类`和`详细内容` 5 个部分。
 
 ## Overview
 
@@ -72,9 +72,10 @@ api = Api(URL, settings=RedisCacheSettings)
 
 ## Example
 
-可请求的 `URI` 有 3 个：
+可请求的 `URI` 有 4 个：
 
 - `/search/<keyword>`
+- `/category/`
 - `/category/<no>/` 和 `/category/<no>/?page=<page>`
 - `/recipe/<no>/`
 
