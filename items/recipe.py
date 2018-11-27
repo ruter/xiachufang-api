@@ -11,7 +11,7 @@ class Recipe(Item):
         return name.strip()
 
     class Meta:
-        source = XPath('//div[@class="ing-recipe"]/div[@class="normal-recipe-list"]/ul[@class="list"]/li')
+        source = XPath('//div[contains(@class, "main-panel")]//div[@class="normal-recipe-list"]/ul[@class="list"]/li')
         route = {
             '/category/:cat/': '/category/:cat/',
             '/category/:cat/?page=:page': '/category/:cat/?page=:page',

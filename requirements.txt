@@ -23,7 +23,7 @@ pymemcache==1.4.3
 PyYAML==3.12
 records==0.5.2
 redis==2.10.6
-requests==2.18.4
+requests==2.20.1
 selenium==3.8.0
 six==1.11.0
 SQLAlchemy==1.1.15
