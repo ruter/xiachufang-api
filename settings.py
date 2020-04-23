@@ -1,5 +1,6 @@
 import os
 
+from fake_useragent import UserAgent
 from toapi.cache import MemoryCache, RedisCache, JsonSerializer
 from toapi.settings import Settings
 
@@ -18,7 +19,7 @@ class MemCacheSettings(Settings):
     }
     web = {
         "with_ajax": False,
-        "request_config": {},
+        "request_config": {"headers": {'User-Agent': UserAgent().random}},
         "headers": None
     }
 
@@ -41,6 +42,6 @@ class RedisCacheSettings(Settings):
     }
     web = {
         "with_ajax": False,
-        "request_config": {},
+        "request_config": {"headers": {'User-Agent': UserAgent().random}},
         "headers": None
     }
